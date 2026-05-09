@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { addTransaction } from '@/lib/storage'
 import { EXPENSE_CATEGORIES, INCOME_CATEGORIES, TransactionType } from '@/types'
 import BottomNav from '@/components/BottomNav'
-import { ChevronLeft } from 'lucide-react'
+import { X } from 'lucide-react'
 
 export default function AddTransactionPage() {
   const router = useRouter()
@@ -26,54 +26,113 @@ export default function AddTransactionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="bg-white border-b border-gray-100 px-4 py-4 flex items-center gap-3">
-        <button onClick={() => router.back()} className="text-gray-500"><ChevronLeft size={24} /></button>
-        <h1 className="text-lg font-semibold text-gray-900">Add transaction</h1>
-      </div>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#141218' }}>
+      {/* Header */}
+      <header className="sticky top-0 z-40 flex justify-between items-center px-6 h-20" style={{ backgroundColor: '#141218', borderBottom: '4px solid #000' }}>
+        <div className="flex items-center gap-4">
+          <button onClick={() => router.back()} className="w-10 h-10 neo-border neo-shadow neo-shadow-active flex items-center justify-center" style={{ backgroundColor: '#b5f23d' }}>
+            <X size={20} color="#000" strokeWidth={3} />
+          </button>
+          <h1 className="font-headline text-2xl uppercase" style={{ color: '#e6e0e9' }}>Add<br />Transaction</h1>
+        </div>
+      </header>
 
-      <form onSubmit={handleSubmit} className="px-4 py-5 space-y-5">
-        <div className="bg-gray-100 rounded-xl p-1 flex">
+      <form onSubmit={handleSubmit} className="px-6 py-6 space-y-6">
+        {/* Amount */}
+        <div className="neo-border neo-shadow-lg p-5 text-center" style={{ backgroundColor: '#36343a' }}>
+          <label className="font-label text-xs uppercase tracking-widest block mb-3" style={{ color: '#cbc4d2' }}>Amount</label>
+          <div className="flex items-center justify-center gap-2">
+            <span className="font-display text-6xl" style={{ color: '#b5f23d' }}>$</span>
+            <input
+              autoFocus
+              type="number"
+              value={amount}
+              onChange={e => setAmount(e.target.value)}
+              required
+              min="0.01"
+              step="0.01"
+              placeholder="0.00"
+              className="font-display text-5xl bg-transparent border-none outline-none text-white placeholder:text-gray-600 w-full"
+            />
+          </div>
+        </div>
+
+        {/* Expense / Income toggle */}
+        <div className="neo-border neo-shadow flex gap-1 p-1" style={{ backgroundColor: '#000' }}>
           {(['expense', 'income'] as TransactionType[]).map((t) => (
-            <button key={t} type="button" onClick={() => { setType(t); setCategory('') }} className={`flex-1 py-2 rounded-lg text-sm font-medium transition-colors ${type === t ? 'bg-white shadow text-gray-900' : 'text-gray-500'}`}>
+            <button
+              key={t}
+              type="button"
+              onClick={() => { setType(t); setCategory('') }}
+              className="flex-1 py-4 font-label text-sm uppercase tracking-wider transition-all"
+              style={{
+                backgroundColor: type === t ? (t === 'expense' ? '#0052ff' : '#b5f23d') : 'transparent',
+                color: type === t ? (t === 'expense' ? '#fff' : '#000') : '#948e9c',
+                border: type === t ? '3px solid #000' : 'none',
+              }}
+            >
               {t === 'expense' ? 'Expense' : 'Income'}
             </button>
           ))}
         </div>
 
-        <div className="bg-white rounded-2xl p-4">
-          <label className="text-xs text-gray-500 uppercase tracking-wide">Amount</label>
-          <div className="flex items-center mt-1">
-            <span className="text-2xl font-bold text-gray-400 mr-2">$</span>
-            <input type="number" value={amount} onChange={e => setAmount(e.target.value)} required min="0.01" step="0.01" placeholder="0.00" className="text-3xl font-bold text-gray-900 flex-1 outline-none bg-transparent" />
+        {/* Category */}
+        <div>
+          <label className="font-label text-xs uppercase tracking-wider block mb-2 px-1" style={{ color: '#cbc4d2' }}>Category</label>
+          <div className="relative neo-border neo-shadow" style={{ backgroundColor: '#211f24' }}>
+            <select
+              value={category}
+              onChange={e => setCategory(e.target.value)}
+              className="w-full h-14 px-4 appearance-none bg-transparent font-label text-base uppercase outline-none"
+              style={{ color: category ? '#e6e0e9' : '#948e9c' }}
+            >
+              <option value="" disabled>Select category</option>
+              {categories.map(cat => (
+                <option key={cat} value={cat} style={{ backgroundColor: '#211f24' }}>{cat}</option>
+              ))}
+            </select>
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none font-label text-xs" style={{ color: '#948e9c' }}>▼</span>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-4">
-          <label className="text-xs text-gray-500 uppercase tracking-wide block mb-3">Category</label>
-          <div className="grid grid-cols-3 gap-2">
-            {categories.map((cat) => (
-              <button key={cat} type="button" onClick={() => setCategory(cat)} className={`py-2 px-3 rounded-xl text-sm font-medium border transition-colors ${category === cat ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-gray-50 text-gray-700 border-gray-200'}`}>
-                {cat}
-              </button>
-            ))}
+        {/* Date */}
+        <div>
+          <label className="font-label text-xs uppercase tracking-wider block mb-2 px-1" style={{ color: '#cbc4d2' }}>Date</label>
+          <div className="relative neo-border neo-shadow" style={{ backgroundColor: '#211f24' }}>
+            <input
+              type="date"
+              value={date}
+              onChange={e => setDate(e.target.value)}
+              required
+              className="w-full h-14 px-4 bg-transparent font-label text-base uppercase outline-none"
+              style={{ color: '#e6e0e9', colorScheme: 'dark' }}
+            />
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl p-4">
-          <label className="text-xs text-gray-500 uppercase tracking-wide block mb-1">Date</label>
-          <input type="date" value={date} onChange={e => setDate(e.target.value)} required className="w-full text-gray-900 text-base outline-none bg-transparent" />
+        {/* Note */}
+        <div>
+          <label className="font-label text-xs uppercase tracking-wider block mb-2 px-1" style={{ color: '#cbc4d2' }}>Note (Optional)</label>
+          <textarea
+            value={note}
+            onChange={e => setNote(e.target.value)}
+            placeholder="WHAT WAS THIS FOR?"
+            rows={3}
+            className="w-full p-4 neo-border neo-shadow font-label text-sm resize-none outline-none placeholder:uppercase"
+            style={{ backgroundColor: '#211f24', color: '#e6e0e9' }}
+          />
         </div>
 
-        <div className="bg-white rounded-2xl p-4">
-          <label className="text-xs text-gray-500 uppercase tracking-wide block mb-1">Note (optional)</label>
-          <input type="text" value={note} onChange={e => setNote(e.target.value)} placeholder="e.g. Lunch with team" className="w-full text-gray-900 text-base outline-none bg-transparent" />
-        </div>
+        {error && (
+          <p className="font-label text-xs uppercase" style={{ color: '#ffb4ab' }}>{error}</p>
+        )}
 
-        {error && <div className="bg-red-50 text-red-600 text-sm rounded-xl px-4 py-3">{error}</div>}
-
-        <button type="submit" className="w-full bg-indigo-600 text-white rounded-2xl py-4 font-semibold text-base">
-          Save transaction
+        <button
+          type="submit"
+          className="w-full h-16 neo-border neo-shadow-lg neo-shadow-active font-headline text-2xl uppercase italic"
+          style={{ backgroundColor: '#b5f23d', color: '#000' }}
+        >
+          Save Transaction
         </button>
       </form>
 

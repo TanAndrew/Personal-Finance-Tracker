@@ -25,34 +25,66 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
-      <div className="bg-white border-b border-gray-100 px-4 py-4">
-        <h1 className="text-lg font-semibold text-gray-900">Settings</h1>
-      </div>
+    <div className="min-h-screen pb-24" style={{ backgroundColor: '#141218' }}>
+      <header className="sticky top-0 z-40 px-6 h-20 flex items-center" style={{ backgroundColor: '#141218', borderBottom: '4px solid #000' }}>
+        <h1 className="font-headline text-2xl uppercase" style={{ color: '#e6e0e9' }}>Profile</h1>
+      </header>
 
-      <form onSubmit={handleSave} className="px-4 py-5 space-y-4">
-        <div className="bg-white rounded-2xl shadow-sm p-4 space-y-4">
-          <h2 className="font-semibold text-gray-800">Monthly savings goal</h2>
-          <div>
-            <label className="text-xs text-gray-500 uppercase tracking-wide block mb-1">Monthly income</label>
-            <div className="flex items-center gap-2">
-              <span className="text-gray-400 font-medium">$</span>
-              <input type="number" value={income} onChange={e => setIncome(e.target.value)} required min="0" step="0.01" placeholder="e.g. 5000" className="flex-1 text-gray-900 text-base outline-none border-b border-gray-200 py-1" />
+      <form onSubmit={handleSave} className="px-6 py-6 space-y-6">
+        <div className="neo-border neo-shadow p-5" style={{ backgroundColor: '#211f24' }}>
+          <h2 className="font-label text-xs uppercase tracking-widest mb-5" style={{ color: '#cfbcff' }}>Monthly Savings Goal</h2>
+
+          <div className="space-y-5">
+            <div>
+              <label className="font-label text-xs uppercase tracking-wider block mb-2" style={{ color: '#cbc4d2' }}>Monthly Income</label>
+              <div className="flex items-center neo-border neo-shadow" style={{ backgroundColor: '#141218' }}>
+                <span className="font-label text-lg px-4" style={{ color: '#b5f23d' }}>$</span>
+                <input
+                  type="number"
+                  value={income}
+                  onChange={e => setIncome(e.target.value)}
+                  required
+                  min="0"
+                  step="0.01"
+                  placeholder="e.g. 5000"
+                  className="flex-1 h-14 bg-transparent outline-none font-label text-base"
+                  style={{ color: '#e6e0e9' }}
+                />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className="text-xs text-gray-500 uppercase tracking-wide block mb-1">Monthly savings target</label>
-            <div className="flex items-center gap-2">
-              <span className="text-gray-400 font-medium">$</span>
-              <input type="number" value={savingsTarget} onChange={e => setSavingsTarget(e.target.value)} required min="0" step="0.01" placeholder="e.g. 1000" className="flex-1 text-gray-900 text-base outline-none border-b border-gray-200 py-1" />
+
+            <div>
+              <label className="font-label text-xs uppercase tracking-wider block mb-2" style={{ color: '#cbc4d2' }}>Savings Target</label>
+              <div className="flex items-center neo-border neo-shadow" style={{ backgroundColor: '#141218' }}>
+                <span className="font-label text-lg px-4" style={{ color: '#b5f23d' }}>$</span>
+                <input
+                  type="number"
+                  value={savingsTarget}
+                  onChange={e => setSavingsTarget(e.target.value)}
+                  required
+                  min="0"
+                  step="0.01"
+                  placeholder="e.g. 1000"
+                  className="flex-1 h-14 bg-transparent outline-none font-label text-base"
+                  style={{ color: '#e6e0e9' }}
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        {saved && <div className="bg-green-50 text-green-600 text-sm rounded-xl px-4 py-3">Settings saved!</div>}
+        {saved && (
+          <div className="neo-border p-3 text-center" style={{ backgroundColor: '#b5f23d' }}>
+            <p className="font-label text-xs uppercase" style={{ color: '#000' }}>Saved!</p>
+          </div>
+        )}
 
-        <button type="submit" className="w-full bg-indigo-600 text-white rounded-2xl py-4 font-semibold text-base">
-          Save settings
+        <button
+          type="submit"
+          className="w-full h-16 neo-border neo-shadow-lg neo-shadow-active font-headline text-xl uppercase italic"
+          style={{ backgroundColor: '#cfbcff', color: '#000' }}
+        >
+          Save Settings
         </button>
       </form>
 

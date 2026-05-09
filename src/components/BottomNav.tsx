@@ -2,52 +2,46 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, List, PlusCircle, TrendingUp, Settings } from 'lucide-react'
+import { Home, ScrollText, Plus, TrendingUp, User } from 'lucide-react'
 
 const navItems = [
-  { href: '/', icon: Home, label: 'Home' },
-  { href: '/transactions', icon: List, label: 'Transactions' },
-  { href: '/transactions/add', icon: PlusCircle, label: 'Add' },
-  { href: '/investments', icon: TrendingUp, label: 'Invest' },
-  { href: '/settings', icon: Settings, label: 'Settings' },
+  { href: '/', icon: Home, label: 'HOME' },
+  { href: '/transactions', icon: ScrollText, label: 'HISTORY' },
+  { href: '/transactions/add', icon: Plus, label: 'ADD' },
+  { href: '/investments', icon: TrendingUp, label: 'ASSETS' },
+  { href: '/settings', icon: User, label: 'PROFILE' },
 ]
 
 export default function BottomNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 safe-area-pb">
-      <div className="flex justify-around items-center h-16 max-w-lg mx-auto px-2">
-        {navItems.map(({ href, icon: Icon, label }) => {
-          const active = pathname === href
-          const isAdd = href === '/transactions/add'
+    <nav
+      className="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 h-20"
+      style={{ backgroundColor: '#141218', borderTop: '4px solid #000', boxShadow: '0 -4px 0 0 #000' }}
+    >
+      {navItems.map(({ href, icon: Icon, label }) => {
+        const isAdd = href === '/transactions/add'
+        const active = pathname === href
+
+        if (isAdd) {
           return (
-            <Link
-              key={href}
-              href={href}
-              className={`flex flex-col items-center gap-0.5 flex-1 ${
-                isAdd ? 'relative -top-3' : ''
-              }`}
-            >
-              {isAdd ? (
-                <span className="bg-indigo-600 rounded-full p-3 shadow-lg shadow-indigo-200">
-                  <Icon size={24} className="text-white" />
-                </span>
-              ) : (
-                <>
-                  <Icon
-                    size={22}
-                    className={active ? 'text-indigo-600' : 'text-gray-400'}
-                  />
-                  <span className={`text-xs ${active ? 'text-indigo-600 font-medium' : 'text-gray-400'}`}>
-                    {label}
-                  </span>
-                </>
-              )}
+            <Link key={href} href={href} className="flex flex-col items-center -mt-6">
+              <span className="w-14 h-14 flex items-center justify-center neo-border neo-shadow neo-shadow-active" style={{ backgroundColor: '#ff6b00' }}>
+                <Icon size={28} color="#000" strokeWidth={3} />
+              </span>
+              <span className="font-label text-[10px] uppercase mt-1" style={{ color: '#ff6b00' }}>{label}</span>
             </Link>
           )
-        })}
-      </div>
+        }
+
+        return (
+          <Link key={href} href={href} className="flex flex-col items-center gap-0.5">
+            <Icon size={22} color={active ? '#cfbcff' : '#948e9c'} strokeWidth={active ? 2.5 : 1.5} />
+            <span className="font-label text-[10px] uppercase" style={{ color: active ? '#cfbcff' : '#948e9c' }}>{label}</span>
+          </Link>
+        )
+      })}
     </nav>
   )
 }

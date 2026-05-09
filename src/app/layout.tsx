@@ -1,8 +1,5 @@
 import type { Metadata } from 'next'
-import { Geist } from 'next/font/google'
 import './globals.css'
-
-const geist = Geist({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'FinTrack',
@@ -14,8 +11,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Syne:wght@800&family=Bricolage+Grotesque:wght@700&family=Inter:wght@400;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
-      <body className={`${geist.className} bg-gray-50 text-gray-900 antialiased`}>
+      <body className="antialiased" style={{ backgroundColor: '#141218', color: '#e6e0e9' }}>
         {children}
       </body>
     </html>
